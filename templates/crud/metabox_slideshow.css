@@ -1,0 +1,36 @@
+.clearfix {
+	clear: both;
+}
+
+div.size {
+	float: left;
+}
+div.size input {
+	width: 50px;
+}
+button.nova_imagem {
+	float: right;
+}
+ul.image_gallery {
+	margin-top: 7px;
+}
+ul.image_gallery li {
+	position: relative;
+}
+ul.image_gallery li:hover {
+	cursor: move;
+}
+ul.image_gallery a.media-modal-close {
+	display: none;
+}
+ul.image_gallery li:hover a.media-modal-close {
+	display: block;
+	cursor: pointer;
+}
+ul.image_gallery img {
+	float: left;
+	margin-right: 10px;
+}
+ul.image_gallery input {
+	width: 70%;
+}
