@@ -36,7 +36,7 @@ if ($attr['name'] != '') {
 				echo '<li>';
 
 				if ($img->link != '') {
-					if ((strpos($img->link, 'http://') === false) && (strpos($img->link, 'https://') === false))
+					if ((strpos($img->link, 'http://') === false) && (strpos($img->link, 'https://') === false) && (substr($img->link, 0, 7) != 'mailto:'))
 						$img->link = 'http://'.$img->link;
 
 					echo '<a href="'.$img->link.'">';
