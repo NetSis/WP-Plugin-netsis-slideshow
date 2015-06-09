@@ -3,7 +3,7 @@
 Plugin Name: NetSis - Slideshow
 Plugin URI: 
 Description: Slideshow
-Version: 0.1.15
+Version: 0.1.16
 Author: NetSis - Sistemas Web
 Author URI: http://www.netsis.com.br
 License: Copyright
@@ -114,49 +114,52 @@ if(!class_exists('NetSisSlideShow'))
 		}
 
 		public static function custom_post_type_save_meta($post_id, $post) {
-			// Don't store custom data twice
-			if($post->post_type == 'revision')
-				return;
+            if ($_SERVER['REQUEST_METHOD'] == 'POST')
+            {
+                // Don't store custom data twice
+                if($post->post_type == 'revision')
+                    return;
 
-			// verify this came from the our screen and with proper authorization,
-			// because save_post can be triggered at other times
-			//if (!wp_verify_nonce($_POST['eventmeta_noncename'], 'netsis-site')) //ToDo: tratar nonce
-			//	return $post->ID;
+                // verify this came from the our screen and with proper authorization,
+                // because save_post can be triggered at other times
+                //if (!wp_verify_nonce($_POST['eventmeta_noncename'], 'netsis-site')) //ToDo: tratar nonce
+                //	return $post->ID;
 
-			// Is the user allowed to edit the post or page?
-			if (!current_user_can('edit_post', $post->ID))
-				return $post->ID;
+                // Is the user allowed to edit the post or page?
+                if (!current_user_can('edit_post', $post->ID))
+                    return $post->ID;
 
-			$events_meta = array();
+                $events_meta = array();
 
-			// OK, we're authenticated: we need to find and save the data
-			// We'll put it into an array to make it easier to loop though.
-        	switch($post->post_type) {
-        		case 'ns_slideshow':
-        			$events_meta['_slideshow'] = ($_POST['_slideshow'] != '') ? stripslashes($_POST['_slideshow']) : null;
+                // OK, we're authenticated: we need to find and save the data
+                // We'll put it into an array to make it easier to loop though.
+                switch($post->post_type) {
+                    case 'ns_slideshow':
+                        $events_meta['_slideshow'] = ($_POST['_slideshow'] != '') ? stripslashes($_POST['_slideshow']) : null;
 
-					if ($events_meta['_slideshow'] != '') {
-						$slideshow = @json_decode($events_meta['_slideshow']);
-						if ($slideshow != null)
-							NetSisSlideShow::GenerateImages($slideshow);
-					}
-        			break;
+                        if ($events_meta['_slideshow'] != '') {
+                            $slideshow = @json_decode($events_meta['_slideshow']);
+                            if ($slideshow != null)
+                                NetSisSlideShow::GenerateImages($slideshow);
+                        }
+                        break;
 
-        		default:
-        			return;
-        	}
+                    default:
+                        return;
+                }
 
-        	// Add values of $events_meta as custom fields
-			foreach ($events_meta as $key => $value) { // Cycle through the $events_meta array!
-				$value = implode(',', (array)$value); // If $value is an array, make it a CSV (unlikely)
-				if(get_post_meta($post->ID, $key, FALSE)) // If the custom field already has a value
-					update_post_meta($post->ID, $key, $value);
-				else // If the custom field doesn't have a value
-					add_post_meta($post->ID, $key, $value);
+                // Add values of $events_meta as custom fields
+                foreach ($events_meta as $key => $value) { // Cycle through the $events_meta array!
+                    $value = implode(',', (array)$value); // If $value is an array, make it a CSV (unlikely)
+                    if(get_post_meta($post->ID, $key, FALSE)) // If the custom field already has a value
+                        update_post_meta($post->ID, $key, $value);
+                    else // If the custom field doesn't have a value
+                        add_post_meta($post->ID, $key, $value);
 
-				if(!$value)
-					delete_post_meta($post->ID, $key); // Delete if blank
-			}
+                    if(!$value)
+                        delete_post_meta($post->ID, $key); // Delete if blank
+                }
+            }
         }
 
 		public static function shortcode_slideshow($attr)
