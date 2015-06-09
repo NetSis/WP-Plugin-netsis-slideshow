@@ -3,7 +3,7 @@
 Plugin Name: NetSis - Slideshow
 Plugin URI: 
 Description: Slideshow
-Version: 0.1.1
+Version: 0.1.15
 Author: NetSis - Sistemas Web
 Author URI: http://www.netsis.com.br
 License: Copyright
@@ -80,7 +80,7 @@ if(!class_exists('NetSisSlideShow'))
 		{
 			global $post;
 
-			if ($post->post_type == 'ns_slideshow')
+			if (($post != null) && ($post->post_type == 'ns_slideshow'))
 			{
 				wp_enqueue_media();
 				wp_enqueue_script('angularjs', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.2/angular.min.js');
