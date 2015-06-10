@@ -3,7 +3,7 @@
 Plugin Name: NetSis - Slideshow
 Plugin URI: 
 Description: Slideshow
-Version: 0.1.16
+Version: 0.1.17
 Author: NetSis - Sistemas Web
 Author URI: http://www.netsis.com.br
 License: Copyright

@@ -42,7 +42,8 @@ if ($attr['name'] != '') {
 					echo '<a href="'.$img->link.'">';
 				}
 
-				echo '<img src="'.$image_url.'" alt="'.$img->title.'" />';
+                $img_title = (property_exists($img, 'title')) ? $img->title : '';
+				echo '<img src="'.$image_url.'" alt="'.$img_title.'" />';
 
 				if ($img->link != '')
 					echo '</a>';
