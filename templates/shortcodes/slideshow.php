@@ -1,7 +1,7 @@
 <?php
 if ($attr['name'] != '') {
 	$ul_class = '';
-	if ($attr['ul_class'] != '')
+	if (isset($attr['ul_class']) && ($attr['ul_class'] != ''))
 		$ul_class = ' class="'.$attr['ul_class'].'"';
 ?>
 <ul<?php echo $ul_class; ?>>
